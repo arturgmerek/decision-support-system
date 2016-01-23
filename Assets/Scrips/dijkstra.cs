@@ -1,4 +1,6 @@
-﻿namespace Graph_Algorithmn
+﻿using System.Collections.Generic;
+
+namespace Graph_Algorithmn
 {
     public class dijstra
     {
@@ -51,7 +53,7 @@
             dist[0] = 0;
         }
     }
- 
+ /*
     public partial class Form1 : Form
     {
         public Form1()
@@ -74,5 +76,5 @@
             listBox.Height = this.Height;
             this.Controls.Add(listBox);
         }
-    }
+    }*/
 }

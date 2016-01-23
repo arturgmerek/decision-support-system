@@ -3,19 +3,21 @@ using System.Collections;
 
 public class TileManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public bool tileState;
+    public int tilePath;
+    Renderer rend;
 
-    /*
-     * TODO:
-     * Create controller converting mouse input into grid values and so on...
-     */
+    void Start() {
+        tileState = false;
+        tilePath = 99999;
+    }
+
+    void OnMouseDown()
+    {
+        tileState = !tileState;
+        tilePath = tileState ? 1 : 99999;
+        rend = this.GetComponent<Renderer>();
+        rend.enabled = !rend.enabled;
+    }
 
 }
