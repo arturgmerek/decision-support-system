@@ -1,80 +1,102 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
-namespace Graph_Algorithmn
-{
-    public class dijstra
+public class Dijkstra : MonoBehaviour {
+
+    public GameObject nodeUno;
+    public GameObject nodeDos;
+    public GameObject nodeTres;
+    public GameObject nodeQuatro;
+    public GameObject linkUnoDos;
+    public GameObject linkUnoTres;
+    public GameObject linkUnoQuatro;
+    public GameObject linkDosTres;
+    public GameObject linkDosQuatro;
+    public GameObject linkTresQuatro;
+
+    public int distance;
+    List<int> queue;
+    double[] dist;
+    double[,] G;
+
+	void Start () 
     {
-        public dijstra(double[,] G, int s)
+        G = new double[4, 4];
+        queue = new List<int>();
+        distance = new int();
+        dist = new double[4];
+	}
+
+	void Update () 
+    {
+        loadObjects();
+        initial();
+        while (queue.Count > 0)
         {
-            initial(0, s);
-            while (queue.Count > 0)
+            int u = getNextVertex();
+            foreach (int i in queue)
             {
-                int u = getNextVertex();
-                for (int i = 0; i < s; i++)
+                if (G[u, i] > 0)
                 {
-                    if (G[u, i] > 0)
+                    if (dist[i] > dist[u] + G[u, i])
                     {
-                        if (dist[i] > dist[u] + G[u, i])
-                        {
-                            dist[i] = dist[u] + G[u, i];
-                        }
+                        dist[i] = dist[u] + G[u, i];
                     }
                 }
             }
         }
- 
-        public double[] dist { get; set; }
-        int getNextVertex()
+
+        distance = 0;
+        foreach (double d in dist)
         {
-            var min = double.PositiveInfinity;
-            int vertex = -1;
- 
-            foreach (int val in queue)
-            {
-                if (dist[val] <= min)
-                {
-                    min = dist[val];
-                    vertex = val;
-                }
-            }
-            queue.Remove(vertex);
-            return vertex;
+            distance += (int)d;
         }
-        List<int> queue = new List<int>();
-        public void initial(int s, int len)
-        {
-            dist = new double[len];
- 
-            for (int i = 0; i < len; i++)
-            {
-                dist[i] = double.PositiveInfinity;
-                queue.Add(i);
-            }
-            dist[0] = 0;
-        }
-    }
- /*
-    public partial class Form1 : Form
+	}
+
+    private void loadObjects()
     {
-        public Form1()
+        G[0, 1] = 3;
+        G[0, 2] = 2;
+        G[0, 3] = 6;
+
+        G[1, 0] = 3;
+        G[1, 2] = 3;
+        G[1, 3] = 1;
+
+        G[2, 0] = 2;
+        G[2, 1] = 3;
+        G[2, 3] = 1;
+
+        G[3, 0] = 6;
+        G[3, 1] = 1;
+        G[3, 2] = 1;
+    }
+
+    void initial()
+    {
+        for (int i = 0; i < 4; i++)
         {
-            InitializeComponent();
-            ListBox listBox = new ListBox();
-            double[,] G = new double[4, 4];
-            G[0, 1] = 3;
-            G[0, 3] = 6;
-            G[1, 3] = 1;
-            G[1, 2] = 3;
-            G[3, 2] = 1;
-            dijstra dist = new dijstra(G, 4);
-            var item = dist.dist;
-            for (int i = 0; i < item.Length; i++)
-            {
-                listBox.Items.Add("Node " + i + " Path Distance = " + item[i]);
-            }
-            listBox.Width = this.Width;
-            listBox.Height = this.Height;
-            this.Controls.Add(listBox);
+            dist[i] = double.PositiveInfinity;
+            queue.Add(i);
         }
-    }*/
+        dist[0] = 0;
+    }
+
+    int getNextVertex()
+    {
+        var min = double.PositiveInfinity;
+        int vertex = -1;
+
+        foreach (int val in queue)
+        {
+            if (dist[val] <= min)
+            {
+                min = dist[val];
+                vertex = val;
+            }
+        }
+        queue.Remove(vertex);
+        return vertex;
+    }
 }
