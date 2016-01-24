@@ -15,10 +15,20 @@ public class Dijkstra : MonoBehaviour {
     public GameObject linkDosQuatro;
     public GameObject linkTresQuatro;
 
-    public int distance;
+    public GameObject distanceTextMesh;
+
+    int distance;
+    TextMesh distanceText;
     List<int> queue;
-    double[] dist;
+    public double[] dist;
     double[,] G;
+
+    LinkManager ud;
+    LinkManager ut;
+    LinkManager uq;
+    LinkManager dt;
+    LinkManager dq;
+    LinkManager tq;
 
 	void Start () 
     {
@@ -26,6 +36,13 @@ public class Dijkstra : MonoBehaviour {
         queue = new List<int>();
         distance = new int();
         dist = new double[4];
+        ud = linkUnoDos.GetComponent<LinkManager>();
+        ut = linkUnoTres.GetComponent<LinkManager>();
+        uq = linkUnoQuatro.GetComponent<LinkManager>();
+        dt = linkDosTres.GetComponent<LinkManager>();
+        dq = linkDosQuatro.GetComponent<LinkManager>();
+        tq = linkTresQuatro.GetComponent<LinkManager>();
+        distanceText = distanceTextMesh.GetComponent<TextMesh>();
 	}
 
 	void Update () 
@@ -47,30 +64,29 @@ public class Dijkstra : MonoBehaviour {
             }
         }
 
-        distance = 0;
-        foreach (double d in dist)
-        {
-            distance += (int)d;
-        }
+        distanceText.text = "Shortest distance \nbetween nodes";
+        distanceText.text += "\n1-2: " + dist[1].ToString();
+        distanceText.text += "\n1-3: " + dist[2].ToString();
+        distanceText.text += "\n1-4: " + dist[3].ToString();
 	}
 
     private void loadObjects()
     {
-        G[0, 1] = 3;
-        G[0, 2] = 2;
-        G[0, 3] = 6;
+        G[0, 1] = ud.linkValue;
+        G[0, 2] = ut.linkValue;
+        G[0, 3] = uq.linkValue;
 
-        G[1, 0] = 3;
-        G[1, 2] = 3;
-        G[1, 3] = 1;
+        G[1, 0] = ud.linkValue;
+        G[1, 2] = dt.linkValue;
+        G[1, 3] = dq.linkValue;
 
-        G[2, 0] = 2;
-        G[2, 1] = 3;
-        G[2, 3] = 1;
+        G[2, 0] = ut.linkValue;
+        G[2, 1] = dt.linkValue;
+        G[2, 3] = tq.linkValue;
 
-        G[3, 0] = 6;
-        G[3, 1] = 1;
-        G[3, 2] = 1;
+        G[3, 0] = uq.linkValue;
+        G[3, 1] = dq.linkValue;
+        G[3, 2] = tq.linkValue;
     }
 
     void initial()

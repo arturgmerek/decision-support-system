@@ -3,15 +3,28 @@ using System.Collections;
 
 public class LinkManager : MonoBehaviour {
 
-    public int tilePath;
+    public GameObject linkTextMesh;
+    public int linkValue;
 
-    void Start() {
-        tilePath = 1;
+    void Start()
+    {
+        linkValue = 0;
     }
 
-    void OnMouseDown()
+    void Update() 
     {
-        tilePath =+ 1;
+        TextMesh tm = linkTextMesh.GetComponent<TextMesh>();
+        tm.text = linkValue.ToString();
+    }
+
+    public void increaseValue()
+    {
+        linkValue += 1;
+    }
+
+    public void decreaseValue()
+    {
+        if (linkValue > 0) linkValue -= 1;
     }
 
 }
